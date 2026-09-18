@@ -10,8 +10,10 @@ import type { TabIcon as TabIconProps } from "@/constants/types";
 const tabBar = components.tabBar;
 
 
+/** Renders the safe-area-aware tab navigator and its registered routes. */
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
+  /** Renders a tab icon with active styling when its route is focused. */
   const TabIcon = ({focused, icon}: TabIconProps) => {
     return (
       <View className="tab-icon">

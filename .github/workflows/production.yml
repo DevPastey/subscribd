@@ -1,0 +1,115 @@
+name: Production - Release CD
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        type: choice
+        options:
+          - all
+          - android
+          - ios
+        default: all
+      publish_update:
+        description: 'Publish OTA update to production channel?'
+        required: true
+        type: boolean
+        default: true
+      trigger_build:
+        description: 'Trigger EAS Production Build (AAB/IPA for Store)?'
+        required: true
+        type: boolean
+        default: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint
+        run: npm run lint
+
+      - name: 🏷️ Run TypeScript type check
+        run: npm run typecheck
+
+      - name: 🧪 Run Unit Tests with Coverage
+        run: npm run test:ci
+
+  eas-update-production:
+    name: Publish EAS Update (Production)
+    needs: validate
+    if: ${{ github.event_name == 'push' || github.event.inputs.publish_update == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: ⚙️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚀 Publish OTA Update to Production Channel
+        run: |
+          eas update --channel production --message "${{ github.event.head_commit.message || 'Production release update' }}" --non-interactive
+
+  eas-build-production:
+    name: Trigger EAS Build (Production Store Build)
+    needs: validate
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.event.inputs.trigger_build == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: ⚙️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Trigger EAS Build (Production Profile)
+        run: |
+          eas build --profile production --platform ${{ github.event.inputs.platform || 'all' }} --non-interactive --no-wait

@@ -1,0 +1,72 @@
+name: EAS Update (Manual OTA)
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: 'Update channel to publish to'
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+          - development
+        default: preview
+      message:
+        description: 'Update message / reason'
+        required: true
+        type: string
+        default: 'Manual OTA update'
+
+jobs:
+  validate:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint
+        run: npm run lint
+
+      - name: 🏷️ Run TypeScript type check
+        run: npm run typecheck
+
+      - name: 🧪 Run Unit Tests
+        run: npm run test:ci
+
+  publish-update:
+    name: Publish EAS Update
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: ⚙️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚀 Publish EAS Update
+        run: |
+          eas update --channel ${{ github.event.inputs.channel }} --message "${{ github.event.inputs.message }}" --non-interactive

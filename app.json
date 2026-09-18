@@ -8,6 +8,12 @@
     "scheme": "subscribd",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/your-eas-project-id"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -47,6 +53,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "76c6c99d-0950-4f58-ad38-33fe7bbd448a"
+      }
+    },
+    "owner": "devpastey"
   }
 }

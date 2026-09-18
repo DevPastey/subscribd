@@ -2,6 +2,7 @@ import { Text, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView} from "react-native-safe-area-context";
 
+/** Renders the home screen with links to the app's primary flows. */
 export default function Index() {
   return (
     <SafeAreaView

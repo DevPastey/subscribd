@@ -2,6 +2,7 @@ import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useLocalSearchParams } from 'expo-router';
 
+/** Renders details for the subscription ID in the current route. */
 const SubscriptionDetails = () => {
 
     const {id} = useLocalSearchParams<{id: string}>();

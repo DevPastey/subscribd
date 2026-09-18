@@ -1,3 +1,4 @@
+/** Creates and caches the Expo Babel configuration with NativeWind support. */
 module.exports = function (api) {
   api.cache(true);
   return {

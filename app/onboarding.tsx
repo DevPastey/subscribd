@@ -6,7 +6,7 @@ const Onboarding = () => {
   return (
     <View>
       <Text>Onboarding</Text>
-      <Link href="/(tabs)/">
+      <Link href="/">
         Go back
       </Link>
     </View>

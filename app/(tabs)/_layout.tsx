@@ -1,5 +1,4 @@
 import { tabs } from "@/constants/data";
-import "@/global.css";
 import { clsx } from "clsx";
 import { Image } from "expo-image";
 import { Tabs } from "expo-router";

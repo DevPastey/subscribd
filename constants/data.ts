@@ -1,5 +1,5 @@
  import { icons } from "./icons";
-import { AppTab, UpcomingSubscription, Subscription } from "./types";
+import { AppTab, Subscription, UpcomingSubscription } from "./types";
 
 export const tabs: AppTab[] = [
     { name: "index", title: "Home", icon: icons.home },

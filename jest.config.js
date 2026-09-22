@@ -11,7 +11,9 @@ module.exports = {
     'app/**/*.{ts,tsx}',
     'components/**/*.{ts,tsx}',
     'constants/**/*.ts',
+    'lib/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
+    '!app-example/**',
   ],
 };

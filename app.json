@@ -12,7 +12,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/your-eas-project-id"
+      "url": "https://u.expo.dev/76c6c99d-0950-4f58-ad38-33fe7bbd448a"
     },
     "ios": {
       "supportsTablet": true
@@ -45,7 +45,14 @@
           }
         }
       ],
-      "expo-font",
+      ["expo-font", { "fonts": [
+        "./assets/fonts/PlusJakartaSans-Regular.ttf",
+        "./assets/fonts/PlusJakartaSans-Bold.ttf",
+        "./assets/fonts/PlusJakartaSans-Medium.ttf",
+        "./assets/fonts/PlusJakartaSans-ExtraBold.ttf",
+        "./assets/fonts/PlusJakartaSans-SemiBold.ttf",
+        "./assets/fonts/PlusJakartaSans-Light.ttf" 
+      ]}],
       "expo-image",
       "expo-status-bar",
       "expo-web-browser"

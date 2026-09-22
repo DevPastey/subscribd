@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
 import { Text, View, Image, FlatList, ImageSourcePropType } from "react-native";
+import { useState } from "react";
 import { formatCurrency, formatRenewalPeriod } from "@/lib/utils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
@@ -7,10 +8,12 @@ import { HOME_BALANCE, HOME_SUBSCRIPTIONS, HOME_USER, UPCOMING_SUBSCRIPTIONS } f
 import { icons } from "@/constants/icons";
 import { clsx } from "clsx";
 import { components }from "@/constants/theme";
+import SubscriptionCard from "@/components/subscription-card";
 
 const tabBar = components.tabBar;
 
 export default function Index() {
+  const [expandedCardId, setExpandedCardId] = useState<string | number | null>(null);
   const balanceDate = new Date(HOME_BALANCE.nextRenewalDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
 
   // 1. Everything above the main list goes into the header to scroll together naturally
@@ -87,42 +90,18 @@ export default function Index() {
         ListHeaderComponent={ListHeader}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          display: 'flex',
+          flexDirection: 'column',
           paddingHorizontal: 16,
-          paddingBottom: tabBar.height + 16, // Pushes elements up clean of the tabbar bounds
+          paddingBottom: tabBar.height + 24, // Pushes elements up clean of the tabbar bounds
         }}
+        ItemSeparatorComponent={() => (<View className="h-4"></View>)}
+        ListEmptyComponent={() => (<Text className="home-empty-state"> No subscriptions yet.</Text>)}
+        extraData={expandedCardId}
         renderItem={({ item }) => {
-          const itemDate = new Date(item.startDate).toLocaleString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false
-          });
           
           return (
-            <View className="all-subscription-card mb-3" style={{ backgroundColor: item.color }}>
-              <View className="flex-row gap-2 justify-center items-center">
-                <View className="flex-row items-center">
-                  <View className="bg-muted rounded-lg p-2">
-                    <Image source={item.icon as ImageSourcePropType} className="upcoming-icon" />
-                  </View>
-                </View>
-
-                <View className="justify-between flex-row flex-1">
-                  <View className="gap-1 flex-col">
-                    <Text className="upcoming-price max-w-[40vw]" ellipsizeMode="tail" numberOfLines={1}>
-                      {item.name}
-                    </Text>
-                    <Text className="upcoming-days-left">{itemDate}</Text>
-                  </View>
-
-                  <View className="justify-between items-center">
-                    <Text className="upcoming-price">{formatCurrency(item.price)}</Text>
-                    <Text className="upcoming-days-left">{formatRenewalPeriod(item.billing)}</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
+            <SubscriptionCard {...item} expanded={expandedCardId === item.id} onPress={() => {setExpandedCardId((currentId) => (currentId === item.id ? null : item.id))}} />
           );
         }}
       />

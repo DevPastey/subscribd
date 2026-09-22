@@ -33,3 +33,22 @@ export type TabIcon = {
     focused: boolean;
     icon: string;
 };
+
+
+export type SubscriptionCardProps = {
+    id: string;
+    icon: string;
+    name: string;
+    plan: string;
+    category: string;
+    paymentMethod: string;
+    status: string;
+    startDate: string;
+    price: number;
+    currency: string;
+    billing: string;
+    renewalDate: string;
+    color: string;
+    expanded: boolean;
+    onPress: () => void;
+}

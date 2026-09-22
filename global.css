@@ -70,11 +70,11 @@
     }
 
     .upcoming-name {
-        @apply text-lg font-sans-bold text-primary;
+        @apply text-base font-sans-bold text-primary;
     }
 
     .upcoming-days-left {
-        @apply text-sm font-sans-semibold text-primary/50;
+        @apply text-xs font-sans-semibold text-primary/50;
     }
 
 
@@ -123,7 +123,7 @@
     }
 
     .sub-card {
-        @apply rounded-2xl border border-border p-4;
+        @apply rounded-tr-2xl rounded-bl-2xl border border-border p-4;
     }
 
     .sub-card-expanded {
@@ -139,7 +139,7 @@
     }
 
     .sub-icon {
-        @apply size-16 rounded-lg;
+        @apply size-10 rounded-lg;
     }
 
     .sub-copy {
@@ -147,7 +147,7 @@
     }
 
     .sub-title {
-        @apply mb-1 text-lg font-sans-bold text-primary;
+        @apply mb-1 text-base font-sans-bold text-primary;
     }
 
     .sub-meta {
@@ -183,7 +183,7 @@
     }
 
     .sub-label {
-        @apply shrink-0 text-base font-sans-medium text-muted-foreground;
+        @apply shrink-0 text-sm font-sans-medium text-muted-foreground;
     }
 
     .sub-value {

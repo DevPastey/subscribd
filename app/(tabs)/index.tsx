@@ -12,6 +12,7 @@ import SubscriptionCard from "@/components/subscription-card";
 
 const tabBar = components.tabBar;
 
+/** Renders the home screen with links to the app's primary flows. */
 export default function Index() {
   const [expandedCardId, setExpandedCardId] = useState<string | number | null>(null);
   const balanceDate = new Date(HOME_BALANCE.nextRenewalDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });

@@ -3,6 +3,7 @@ import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { icons } from '@/constants/icons';
 
+/** Renders the subscriptions placeholder and a link back to the home route. */
 const Subscriptions = () => {
   return (
     <SafeAreaView className="bg-background flex-1 p-5">
